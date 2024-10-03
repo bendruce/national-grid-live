@@ -1,6 +1,7 @@
 // pages/api/pricing.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import fetch from "node-fetch";
+import { rateLimiter } from "../../utils/limiter";
 
 /**
  * @constant {string} PRICING_URL
@@ -44,6 +45,15 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
+    // Apply the rate limiter middleware
+    await new Promise((resolve, reject) => {
+      rateLimiter(req as any, res as any, (result: any) => {
+        if (result instanceof Error) {
+          return reject(result);
+        }
+        resolve(result);
+      });
+    });
     // Get the current date and time, and calculate the timestamp for 24 hours ago
     const now = new Date();
     const to = now.toISOString();

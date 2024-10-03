@@ -2,6 +2,7 @@
 
 import { NextApiRequest, NextApiResponse } from "next";
 import fetch from "node-fetch";
+import { rateLimiter } from "../../utils/limiter";
 
 /**
  * @constant EMISSIONS_URL
@@ -49,6 +50,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Apply the rate limiter middleware
+  await new Promise((resolve, reject) => {
+    rateLimiter(req as any, res as any, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+      resolve(result);
+    });
+  });
   try {
     // Get the current date in 'YYYY-MM-DD' format to pass to the Carbon Intensity API
     const date = new Date().toISOString().split("T")[0];

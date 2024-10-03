@@ -1,4 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { rateLimiter } from "../../utils/limiter";
 
 /**
  * @typedef GenerationMixItem
@@ -26,16 +27,25 @@ const CARBON_INTENSITY_API_URL =
  * @description This handler is responsible for processing requests to the `/api/energy-mix` endpoint.
  * It fetches the electricity generation mix data from the Carbon Intensity API, maps the data into a more readable format,
  * and then returns it to the client. If an error occurs while fetching the data, it responds with a 500 status and an error message.
- * 
+ *
  * @param {NextApiRequest} req - The incoming request object from Next.js API route.
  * @param {NextApiResponse} res - The outgoing response object for sending data back to the client.
- * 
+ *
  * @returns {void} Responds with the generation mix data or an error if the fetch fails.
  */
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Apply the rate limiter middleware
+  await new Promise((resolve, reject) => {
+    rateLimiter(req as any, res as any, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+      resolve(result);
+    });
+  });
   try {
     // Fetch data from the Carbon Intensity API
     const carbonResponse = await fetch(CARBON_INTENSITY_API_URL);

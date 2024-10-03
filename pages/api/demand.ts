@@ -3,6 +3,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import fetch from "node-fetch";
 import { parse } from "csv-parse/sync";
+import { rateLimiter } from "../../utils/limiter";
 
 /**
  * @constant DEMAND_URL
@@ -29,6 +30,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Apply the rate limiter middleware
+  await new Promise((resolve, reject) => {
+    rateLimiter(req as any, res as any, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+      resolve(result);
+    });
+  });
   try {
     // Fetch the CSV data from the provided demand URL
     const response = await fetch(DEMAND_URL);
