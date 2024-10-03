@@ -161,7 +161,7 @@ const Home: React.FC = () => {
         />
 
         {/* Fuel List and Generation Pie Chart */}
-        <div className="flex flex-col gap-1 items-stretch">
+        <div className="flex flex-col gap-2 sm:gap-1 xl:gap-4 items-stretch">
           <FuelList
             title="Fossil Fuels"
             fuelTypes={["coal", "gas"]}

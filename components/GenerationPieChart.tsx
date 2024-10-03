@@ -37,9 +37,6 @@ interface GenerationPieChartProps {
  * @param {string} generationInGW - Optional string representing the total generation in gigawatts (GW).
  *
  * @returns {React.FC} The `GenerationPieChart` React component.
- *
- * @example
- * <GenerationPieChart generationMix={generationMix} generationInGW="10.5" />
  */
 const GenerationPieChart: React.FC<GenerationPieChartProps> = ({
   generationMix,
@@ -130,7 +127,15 @@ const GenerationPieChart: React.FC<GenerationPieChartProps> = ({
   // Chart.js options object, disabling animations and tooltips, and customizing hover effects
   const chartOptions = {
     responsive: true,
-    animations: false,
+    animations: {
+      tension: {
+        duration: 0, // Disable tension animation (applies to line charts)
+      },
+      // If you want to disable all animations, you can also do:
+      animation: {
+        duration: 0, // Disable animations
+      },
+    },
     plugins: {
       legend: {
         display: false, // Disable the legend to avoid clutter
@@ -139,7 +144,9 @@ const GenerationPieChart: React.FC<GenerationPieChartProps> = ({
         enabled: false, // Disable tooltips to use custom hover effects
       },
     },
-    events: ["mousemove", "mouseout", "click"] as const, // Define valid event types
+    events: ["mousemove", "mouseout", "click"] as Array<
+      keyof HTMLElementEventMap
+    >, // Use explicit event types
     onHover: (event: any, chartElement: any[]) => {
       if (chartElement.length) {
         const index = chartElement[0].index; // Get the hovered index
