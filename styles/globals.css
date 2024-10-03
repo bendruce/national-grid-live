@@ -1,0 +1,40 @@
+/* Import Tailwind base, components, and utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Tailwind class using @apply for main container */
+.main-container {
+  @apply p-4 rounded-2xl shadow-md flex gap-2 sm:gap-1 xl:gap-4;
+}
+
+/* Light Mode (Default) settings for background and text color */
+body {
+  background-color: #f1f1f1; /* Light grey background */
+  color: #1d1d1f; /* Dark grey text color */
+}
+
+.main-container {
+  background-color: #ffffff; /* White background for containers */
+}
+
+/* Git logo styling in light mode */
+.git-logo {
+  fill: #1d1d1f; /* Default fill for light mode (dark grey) */
+}
+
+/* Dark Mode settings applied when the 'dark' class is added to the body */
+body.dark {
+  background-color: #1a1a1a; /* Dark background */
+  color: #e5e5e5; /* Light grey text for better readability */
+}
+
+/* Dark mode background for containers */
+body.dark .main-container {
+  background-color: #2c2c2c; /* Dark grey container background */
+}
+
+/* Git logo styling in dark mode */
+body.dark .git-logo {
+  fill: #e5e5e5; /* Light grey fill for the logo in dark mode */
+}
