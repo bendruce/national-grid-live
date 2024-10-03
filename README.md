@@ -30,7 +30,7 @@ Building Interactive UI: Creating an engaging dashboard interface that responds 
 
 You can view the live demo of the dashboard here: [Live Demo Link](https://grid.benwjd.com/)
 
---
+---
 
 ## Benjamin Druce - Software Engineer
 
