@@ -1,4 +1,10 @@
 import rateLimit from "express-rate-limit";
+import express from "express";
+
+const app = express();
+
+// Trust the proxy to ensure the IP address is forwarded correctly
+app.set("trust proxy", true);
 
 /**
  * @description
@@ -23,11 +29,5 @@ export const rateLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes window (expressed in milliseconds)
   max: 100, // Limit each IP to 100 requests per window (15 minutes)
   message: "Too many requests from this IP, please try again later.", // Error message returned when the rate limit is exceeded
+  keyGenerator: (req) => req.ip || "unknown", // Ensure the keyGenerator always returns a string
 });
-
-/**
- * The rate limiter middleware can be applied to any API route in a Next.js application
- * by importing this file and using `rateLimiter` in the route handler. This ensures that
- * API routes are protected from excessive or malicious requests by limiting the number of
- * times a single client can call the API in a specific time frame.
- */
