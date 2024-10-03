@@ -9,6 +9,7 @@ import { roundToLastFiveMinuteMark } from "../utils/roundToLastFiveMinuteMark"; 
 import GenerationPieChart from "../components/GenerationPieChart"; // Component for displaying a generation pie chart
 import DarkMode from "../components/DarkMode"; // Dark mode toggle button
 import { GenerationMixItem, GridInfo } from "../types"; // Adjust the import path as needed
+import PortfolioLink from "../components/PortfolioLink";
 
 /**
  * @file This is the main page of the National Grid dashboard. It fetches live energy data from
@@ -136,7 +137,9 @@ const Home: React.FC = () => {
         {/* Header section with a Dark Mode toggle and GitHub link */}
         <h1 className="items-center justify-between flex flex-row text-2xl font-semibold col-span-full">
           <DarkMode /> Live: National Grid
-          <GitLogoLink />
+          <div className="flex flex-row gap-2">
+            <PortfolioLink /> <GitLogoLink />
+          </div>
         </h1>
 
         {/* GridInfo component displaying time, price, and emissions */}
