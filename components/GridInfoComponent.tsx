@@ -31,6 +31,7 @@ interface GridInfoProps {
 }
 
 const GridInfoComponent: React.FC<GridInfoProps> = ({ data }) => {
+  console.log(data);
   return (
     <div className="main-container justify-center w-full">
       {/* Flex container for displaying the label-value pairs */}
@@ -39,7 +40,8 @@ const GridInfoComponent: React.FC<GridInfoProps> = ({ data }) => {
         {data.map((item, index) => (
           <div className="flex flex-col items-center" key={index}>
             <strong>{item.label}</strong> {/* Display the label in bold */}
-            {item.value} {/* Display the corresponding value */}
+            {item.value.includes("undefined") ? "fetching..." : item.value}{" "}
+            {/* Display the corresponding value */}
           </div>
         ))}
       </div>
